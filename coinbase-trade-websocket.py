@@ -19,7 +19,7 @@ def on_message(ws, message):
     data = json.loads(message)
     with open("trade_messages.jsonl", "a", encoding="utf-8") as f:
         f.write(json.dumps(data, ensure_ascii=False) + "\n")
-    print(f"Received message")
+    print(f"Received message {data}")
 
 def on_error(ws, error):
     print(f"Error: {error}")
@@ -39,3 +39,10 @@ ws = websocket.WebSocketApp(
 threading.Timer(30, ws.close).start()
 ws.run_forever()
 
+# Phase 0 questions and answers
+# Which timestamp should a 1-minute candle use: the trade's time or the message's timestamp?
+    # Trade's time
+# One message can hold several trades. Should the producer send one Kafka message per trade, or one per WebSocket message?
+    # 1 per websocket message, we should not be making kafka do the text cleaning and splitting right?
+# You reconnect and Coinbase sends a snapshot. What problem does that create, and which field(s) help you deal with it?
+    # idk what snapshot is tbh 
